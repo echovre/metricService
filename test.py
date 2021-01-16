@@ -17,3 +17,13 @@ response = http.request('POST',APP_URL,body=encoded_data,
 print("Got response:")
 print(response.data.decode('utf-8'))
 
+responseString=response.data.decode('utf-8')
+responseJson=json.loads(responseString)
+print(responseJson)
+
+assert(responseJson['entriesWithNoCleanTime']==0)
+assert(responseJson['entriesWithNoIds']==0)
+assert(responseJson['idsCounted']==3)
+assert(responseJson['maxCleanTime']==2.91691406956171)
+assert(responseJson['minCleanTime']==2.29352616732206)
+assert(responseJson['totalCleanTime']==7.72456219718605)
