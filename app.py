@@ -4,14 +4,12 @@ import urllib3
 from flask import Flask, request, jsonify
 app = Flask(__name__)
 
-#load everything into memory for now. Not sure if Im supposed to re-query the list every time
-
+#for now, load everything into memory. Not sure if Im supposed to re-query the list every time or store in some database if the list is big
 #(also, heroku apps have 30 sec timeout unless I want to go through the trouble of setting up background jobs)
 
-#not sure how to read the paramters list at:
+#not sure how to interpret the parameters list at:
 #https://housekeeping.vacasa.io/#tag/cleans
-
-#also seems to return forbidden:
+#also seems to return forbidden?:
 #https://housekeeping.vacasa.io/#tag/clean_times
 
 CLEANS_URL='https://housekeeping.vacasa.io/cleans'
@@ -54,12 +52,15 @@ def doMetric(uuid):
     #inputs=["e3e70682-c209-4cac-629f-6fbed82c07cd",
     #"16a92bf5-0e5d-4372-a801-1d4e2895be65",
     #"4ffaecc0-3047-4da7-abe2-dd4163f17e61"];
-    #metrics=getMetrics(inputs) 
+    #metrics=getMetrics(inputs)
+    
+    #TODO: error check uuid
     metrics=getMetrics([uuid])
     return jsonify(metrics)
     
 #curl -X POST http://127.0.0.1:5000/ -H 'Content-Type: application/json' -d '{"ids":["e3e70682-c209-4cac-629f-6fbed82c07cd", "16a92bf5-0e5d-4372-a801-1d4e2895be65", "4ffaecc0-3047-4da7-abe2-dd4163f17e61"]}'
 @app.route('/', methods=['POST'])
 def doMetrics():
+    #TODO: error check request
     content = request.json
     return getMetrics(content['ids'])
