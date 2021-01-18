@@ -20,7 +20,6 @@ FILTER_ENDPOINT="?filter[id][in]="
 def getMetrics(cleansData):
     noIds=0;
     noCleanTime=0;
-    timesDict={}
     
     totalTime=0
     count=0
@@ -39,7 +38,6 @@ def getMetrics(cleansData):
         else:
             noCleanTimes+=1
             continue
-        timesDict[myId]=cleanTime
         if firstFlag:
             firstTime=minTime=maxTime = cleanTime
             firstFlag=False
