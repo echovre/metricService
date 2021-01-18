@@ -1,6 +1,11 @@
 # metricService
 
-## Inputs: The service takes a json object which is a list of ids:
+## Service: The service lives at:
+```
+https://metricservice.herokuapp.com/
+```
+
+## Inputs: The service has one default POST endpoint (/) that takes a json object which is a list of ids:
 ```
 {"ids":["e3e70682-c209-4cac-629f-6fbed82c07cd", "16a92bf5-0e5d-4372-a801-1d4e2895be65", "4ffaecc0-3047-4da7-abe2-dd4163f17e61"]}
 ```
@@ -9,12 +14,12 @@
 - maxCleanTime: the maximum time to clean a property in the list
 - minCleanTime: the minimum time to clean a property in the list
 - totalCleanTime: the total time taken to clean all properties in the list
-## As well as the following debugging metrics
+### As well as the following debugging metrics
 - idsCounted: total number of properties in the list for which data was gathered
 - entriesWithNoCleanTime: number of properties where no clean time data was given
 - entriesWithNoIds: number of properties where no id data was given(if this is non-zero something probably went very wrong with the data that was passed)
 
-## Use test.py to test:
+## To unit test, use test.py:
 ```
 python test.py
 ```
@@ -22,7 +27,7 @@ This will hit the url defined in APP_URL, send a list of 3 IDs and verify the re
 
 ## To do it without setting anything up you can also use curl:
 ```
-curl -X POST http://127.0.0.1:5000/ -H 'Content-Type: application/json' -d '{"ids":["e3e70682-c209-4cac-629f-6fbed82c07cd", "16a92bf5-0e5d-4372-a801-1d4e2895be65", "4ffaecc0-3047-4da7-abe2-dd4163f17e61"]}'
+curl -X POST https://metricservice.herokuapp.com/ -H 'Content-Type: application/json' -d '{"ids":["e3e70682-c209-4cac-629f-6fbed82c07cd", "16a92bf5-0e5d-4372-a801-1d4e2895be65", "4ffaecc0-3047-4da7-abe2-dd4163f17e61"]}'
 ```
 
 ### Sample response:
@@ -31,15 +36,15 @@ curl -X POST http://127.0.0.1:5000/ -H 'Content-Type: application/json' -d '{"id
 ```
 
 ## Other notes:
-### We hit the endpoint like this:
+We hit the endpoint like this:
 ```
 https://housekeeping.vacasa.io/cleans?filter[id][in]=16a92bf5-0e5d-4372-a801-1d4e2895be65,e3e70682-c209-4cac-629f-6fbed82c07cd
 ```
 
-### Seems like we ought to use something like:
+Seems like we ought to use something like:
 ```
 https://housekeeping.vacasa.io/cleans?fields[clean]="predicted_clean_time"
 ```
 to minimize the amount of data we need to receive, but this returns the same as the filter endpoint above.
 
-the 'filter' verb makes more sense to me so ill go with that
+The 'filter' verb makes more sense to me so ill go with that
