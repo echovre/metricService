@@ -24,7 +24,7 @@ def getMetrics(cleansData):
     for each in cleansData:
         #myId=each['id']
         #cleanTime=each['attributes']['predicted_clean_time']
-        #do some error checking instead:
+        #do some error checking on returned data:
         if('id' in each):
             myId=each['id']
         else:
@@ -92,7 +92,7 @@ def doMetrics():
     
     #make request
     cleansResponse = http.request('GET', CLEANS_URL+urlParams)
-    #TODO: pull into isJson() function?
+    #TODO: pull this into its own isJson() function?
     try:
         responseData=json.loads(cleansResponse.data)
     except ValueError:
