@@ -36,6 +36,19 @@ curl -X POST https://metricservice.herokuapp.com/ -H 'Content-Type: application/
 ```
 
 ## Other notes:
+### To run locally
+Install all the dependencies in requirements.txt
+
+In test.py change the APP_URL:
+```
+#APP_URL="https://metricservice.herokuapp.com/"
+APP_URL="http://127.0.0.1:8000"
+```
+And run:
+```
+gunicorn app:app
+```
+
 We hit the endpoint like this:
 ```
 https://housekeeping.vacasa.io/cleans?filter[id][in]=16a92bf5-0e5d-4372-a801-1d4e2895be65,e3e70682-c209-4cac-629f-6fbed82c07cd
