@@ -21,10 +21,14 @@ def getMetrics(cleansData):
     noIds=0;
     noCleanTime=0;
     timesDict={}
+    
+    totalTime=0
+    count=0
+    firstFlag=True
     for each in cleansData:
         #myId=each['id']
         #cleanTime=each['attributes']['predicted_clean_time']
-        #do some error checking on returned data:
+        # do this^ but with some error checking
         if('id' in each):
             myId=each['id']
         else:
@@ -36,17 +40,11 @@ def getMetrics(cleansData):
             noCleanTimes+=1
             continue
         timesDict[myId]=cleanTime
-    
-    #set initial values
-    firstTime=timesDict[list(timesDict.keys())[0]]
-    minTime=firstTime
-    maxTime=firstTime
-    totalTime=0
-    count=0
-
-    #gather metrics
-    for each in timesDict:
-        cleanTime=timesDict[each]
+        if firstFlag:
+            firstTime=minTime=maxTime = cleanTime
+            firstFlag=False
+            
+        #gather metrics
         totalTime+=cleanTime
         if minTime>cleanTime: minTime=cleanTime 
         if maxTime<cleanTime: maxTime=cleanTime 
@@ -61,7 +59,7 @@ def getMetrics(cleansData):
     metrics["entriesWithNoIds"]=noIds
     metrics["entriesWithNoCleanTime"]=noCleanTime
     return metrics
-
+    
 
 """
 #http://127.0.0.1:5000/e3e70682-c209-4cac-629f-6fbed82c07cd
